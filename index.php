@@ -40,12 +40,12 @@ $sixty = 60.00;
    if($price < $sixty) {
        echo "<b><font size=128 color=red>YES</font></b> <br><br>";
        echo "<img src=images/m.chandler.jpg><br><br><br>";
-       echo "ANET <a href=http://finance.yahoo.com/q?s=anet target=_blank>$".$price."</a>";
+       echo "ANET <a href=https://www.google.com/finance?q=anet target=_blank>$".$price."</a>";
    }
    else {
        echo "<b><font size=128 color=green>NO</font></b> <br><br>";
        echo "<img src=images/kenneth_duda.jpg><br><br><br>";
-       echo "<h2><font size=100>ANET <a href=http://finance.yahoo.com/q?s=anet target=_blank>$".$price."</a></font></h2>";
+       echo "<h2><font size=100>ANET <a href=https://www.google.com/finance?q=anet target=_blank>$".$price."</a></font></h2>";
    }
 
    #echo "<br><br><br><br>";
