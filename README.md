@@ -1,8 +1,8 @@
 # isanetbelow60.com
-isanetbelow60.com site
 
-This is a personal website for me to check Arista stock price.
+This is the website: <a href =http://www.isanetbelow60.com>isanetbelow60</a>, a personal website for me to check Arista stock price.
 
+# notes
 The site creates a file:
 bin/ANET.txt to store the current price and timestamp
 
