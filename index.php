@@ -42,7 +42,7 @@ $sixty = 60.00;
 
    if($price < $sixty) {
        echo "<b><font size=128 color=red>YES</font></b> <br><br>";
-       echo "<img src='images/m.chandler.jpg'><br><br><br>";
+       echo "<img src='images/m.chandler.jpg' alt='A Lawyer'><br><br><br>";
        echo "ANET <a href=https://www.google.com/finance?q=anet target=_blank>$".$price."</a>";
    }
    else {
