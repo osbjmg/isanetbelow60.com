@@ -5,9 +5,10 @@ $sixty = 60.00;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"> 
+<html lang="en">
  <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <meta http-equiv="refresh" content="305">
   <title>Is ANET below $60?</title>
   <link href="styles.css" rel="stylesheet" type="text/css">
  </head>
@@ -34,11 +35,11 @@ $sixty = 60.00;
                echo "Error: source datafile format unrecognized.";
            }
            $i++;
-       }   
+       }
    }
    else {
         echo "Oops.  I have no clue what ANET is trading at.";
-   } 
+   }
 
    if($price < $sixty) {
        echo "<b><font size=128 color=red>YES</font></b> <br><br>";
@@ -54,12 +55,11 @@ $sixty = 60.00;
    #echo "<br><br><br><br>";
 
    #echo "<div align=right>";
-   echo "<font id=tiny color='#ccc'>*as of ".$theTime."</font>"; 
-   #echo "</div>";    
+   echo "<font id=tiny color='#ccc'>*as of ".$theTime."</font>";
+   #echo "</div>";
    ?>
 
    <br>
   </div>
  </body>
 </html>
-
