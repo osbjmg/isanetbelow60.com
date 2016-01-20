@@ -23,30 +23,27 @@ else {
      echo "Oops.  I have no clue what ANET is trading at.";
 }
 ?>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
  <head>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <meta property="og:site_name" content="isanetbelow60.com">
-
+ <title>Is ANET below $60?</title>
+ <link rel="canonical" href="http://isanetbelow60.com" />
+ <link href="styles.css" rel="stylesheet" type="text/css" />
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="refresh" content="305" />
+ <meta property="og:site_name" content="isanetbelow60.com" />
  <?php
  if($price < $sixty) {
-     echo '<meta name="description" content="Is ANET below $60? - YES">';
-     echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg">';
+     echo '<meta name="description" content="Is ANET below $60? - YES: '.$price.'"/>';
+     echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  }
-
  else {
-     echo '<meta name="description" content="Is ANET below $60? - NO">';
-     echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg">';
+     echo '<meta name="description" content="Is ANET below $60? - NO: '.$price.'" />';
+     echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
  }
  ?>
 
- <link rel="canonical" href="http://isanetbelow60.com">
- <meta http-equiv="refresh" content="305">
-  <title>Is ANET below $60?</title>
-  <link href="styles.css" rel="stylesheet" type="text/css">
  </head>
  <body>
   <div id=top align=center>
