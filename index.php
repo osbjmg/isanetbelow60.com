@@ -12,6 +12,8 @@ if (file_exists($filepath)) {
         if ($i == 0) {
             $price = number_format((float) $line, 2);
         } elseif ($i == 1) {
+            $change = trim($line);
+        } elseif ($i == 2) {
             $theTime = $line;
         } else {
             echo "Error: source datafile format unrecognized.";
@@ -20,7 +22,7 @@ if (file_exists($filepath)) {
     }
 }
 else {
-     echo "Oops.  I have no clue what ANET is trading at.";
+     echo "Oops.  I have no clue at what price ANET is trading.";
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -35,11 +37,11 @@ else {
  <meta property="og:site_name" content="isanetbelow60.com" />
  <?php
  if($price < $sixty) {
-     echo '<meta name="description" content="Is ANET below $60? - YES: '.$price.'"/>';
+     echo '<meta name="description" content=" Yes: $'.$price.',  '.$change.'%"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  }
  else {
-     echo '<meta name="description" content="Is ANET below $60? - NO: '.$price.'" />';
+     echo '<meta name="description" content=" No: $'.$price.', '.$change.'%"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
  }
  ?>
