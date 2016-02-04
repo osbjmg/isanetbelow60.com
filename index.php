@@ -37,7 +37,7 @@ else {
  <meta property="og:site_name" content="isanetbelow60.com" />
  <?php
  if($price < $sixty) {
-     echo '<meta name="description" content=" Yes: $'.$price.',  '.$change.'%"/>';
+     echo '<meta name="description" content=" Yes: $'.$price.', '.$change.'%"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  }
  else {
