@@ -13,6 +13,7 @@ if (file_exists($filepath)) {
             $price = number_format((float) $line, 2);
         } elseif ($i == 1) {
             $change = trim($line);
+            $percentChange = number_format(($change/(abs($change)+$price)*100),2);
         } elseif ($i == 2) {
             $theTime = $line;
         } else {
@@ -37,11 +38,11 @@ else {
  <meta property="og:site_name" content="isanetbelow60.com" />
  <?php
  if($price < $sixty) {
-     echo '<meta name="description" content=" Yes: $'.$price.', '.$change.'%"/>';
+     echo '<meta name="description" content=" Yes: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  }
  else {
-     echo '<meta name="description" content=" No: $'.$price.', '.$change.'%"/>';
+     echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
  }
  ?>
