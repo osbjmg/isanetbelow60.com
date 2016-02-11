@@ -6,6 +6,9 @@ from pprint import pprint
 import time
 import datetime
 
+# maybe try getting data from google (realtime?) 
+# http://finance.google.com/finance/info?q=ANET
+
 os.environ['TZ'] = 'US/Eastern'
 time.tzset()
 
