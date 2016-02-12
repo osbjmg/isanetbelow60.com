@@ -1,28 +1,44 @@
 <?php
-$filename = 'ANET.txt';
+$filename = 'STOCKS.json';
 $filepath = 'bin/'.$filename;
 $sixty = 60.00;
+$theTicker = 'ANET';
+$price ='';
+$change='';
+$percentChange='';
+$theTime='';
 ?>
 <?php
 if (file_exists($filepath)) {
-    $handle	= fopen($filepath, "r");
-    $i = 0;
-    while (!feof($handle)) {
-        $line=fgets($handle);
-        if ($i == 0) {
-            $price = number_format((float) $line, 2);
-        } elseif ($i == 1) {
-            $change = trim($line);
-            $percentChange = number_format(($change/(abs($change)+$price)*100),2);
-        } elseif ($i == 2) {
-            $theTime = $line;
+    $stockInfo = json_decode(file_get_contents($filepath),true);
+    //print_r($stockInfo);
+    //var_dump($stockInfo);
+    // The idea here is to find the array with ANET, and then get its key/index
+    //  and then pull out l, c, cp, lt_dts
+    foreach ($stockInfo as $key => $value) {
+        //echo "\r\n" . $key . ' > ' . $value ."\r\n";
+        if (!is_array($value)) {
+            //echo $key . '>>' . $value ."\r\n";
         } else {
-            echo "Error: source datafile format unrecognized.";
+            foreach ($value as $_key => $_val) {
+                //echo 'key of '. $value . ' is: '. $key.'+  '."\r\n";
+                if (in_array($theTicker, $value)) {
+                    //echo $_key . ' : ' . $_val . "\r\n";
+                    if ($_key == 'l') {
+                        $price = $_val;
+                    } elseif ($_key == 'c') {
+                        $change = $_val;
+                    } elseif ($_key == 'cp') {
+                        $percentChange = $_val;
+                    } elseif ($_key == 'ltt') {
+                        $theTime = $_val;
+                    }
+
+                }
+            }
         }
-        $i++;
     }
-}
-else {
+} else {
      echo "Oops.  I have no clue at what price ANET is trading.";
 }
 ?>
@@ -71,7 +87,7 @@ else {
    #echo "<br><br><br><br>";
 
    #echo "<div align=right>";
-   echo "<font id=tiny color='#ccc'>*as of ".$theTime."</font>";
+   echo "<font id=tiny color='#ccc'> *as of ".$theTime."</font>";
    #echo "</div>";
    ?>
 
