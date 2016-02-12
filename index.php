@@ -11,32 +11,25 @@ $theTime='';
 <?php
 if (file_exists($filepath)) {
     $stockInfo = json_decode(file_get_contents($filepath),true);
+    $interesting_key = array_search($theTicker, array_column($stockInfo, 't'));
+    //echo '$interesting_key: '.$interesting_key.' is interesting.'."\r\n";
     //print_r($stockInfo);
     //var_dump($stockInfo);
     // The idea here is to find the array with ANET, and then get its key/index
     //  and then pull out l, c, cp, lt_dts
-    foreach ($stockInfo as $key => $value) {
-        //echo "\r\n" . $key . ' > ' . $value ."\r\n";
-        if (!is_array($value)) {
-            //echo $key . '>>' . $value ."\r\n";
-        } else {
-            foreach ($value as $_key => $_val) {
-                //echo 'key of '. $value . ' is: '. $key.'+  '."\r\n";
-                if (in_array($theTicker, $value)) {
-                    //echo $_key . ' : ' . $_val . "\r\n";
-                    if ($_key == 'l') {
-                        $price = $_val;
-                    } elseif ($_key == 'c') {
-                        $change = $_val;
-                    } elseif ($_key == 'cp') {
-                        $percentChange = $_val;
-                    } elseif ($_key == 'ltt') {
-                        $theTime = $_val;
-                    }
-
-                }
-            }
+    foreach ($stockInfo[$interesting_key] as $_key => $_val) {
+        //echo 'key of '. $value . ' is: '. $key.'+  '."\r\n";
+        //echo $_key . ' : ' . $_val . "\r\n";
+        if ($_key == 'l') {
+            $price = $_val;
+        } elseif ($_key == 'c') {
+            $change = $_val;
+        } elseif ($_key == 'cp') {
+            $percentChange = $_val;
+        } elseif ($_key == 'ltt') {
+            $theTime = $_val;
         }
+
     }
 } else {
      echo "Oops.  I have no clue at what price ANET is trading.";
