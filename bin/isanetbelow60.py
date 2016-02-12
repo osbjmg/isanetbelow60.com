@@ -1,41 +1,33 @@
 #!/usr/bin/python
-#ystockquote from: https://pypi.python.org/pypi/ystockquote
-import ystockquote
 import os
 from pprint import pprint
-import time
-import datetime
+import requests
+import json
+import re
 
-# maybe try getting data from google (realtime?) 
-# http://finance.google.com/finance/info?q=ANET
+alphabetFinance= 'http://finance.google.com/finance/info?q='
 
-os.environ['TZ'] = 'US/Eastern'
-time.tzset()
+tickers = ['ANET','CSCO']
+tickerString = ''
+if len(tickers) <= 1:
+    tickerString = tickers[0]
+else :
+    tickerString = ','.join(tickers)
+url = alphabetFinance + tickerString
+r = requests.get(url)
+tehJason = re.sub('^\s//\s','',r.text)
 
-ANET_PRICE = ystockquote.get_price('ANET')
-ANET_CHANGE = ystockquote.get_change('ANET')
-ANET_VOL = ystockquote.get_volume('ANET')
-#DJIA_PRICE = ystockquote.get_price('INDU')
-#DJIA_CHANGE = ystockquote.get_change('INDU')
-#NDAQ_PRICE = ystockquote.get_price('CCMP')
-#NDAQ_CHANGE = ystockquote.get_change('CCMP')
-#CSCO_PRICE = ystockquote.get_price('CSCO')
-#CSCO_CHANGE = ystockquote.get_change('CSCO')
-
-f = open('/home/osbjmg/isanetbelow60.com/bin/ANET.txt', 'w+')
-f.write(ANET_PRICE + '\n')
-f.write(ANET_CHANGE + '\n')
-ts = time.time()
-st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S %m-%d-%Y')
-f.write(st)
-#f.write(ystockquote.get_all('ANET'))
-
-"""
-print "Current Arista Share Price: \n\n   $" + (ANET_PRICE) + "  " + (ANET_CHANGE) + "  " + (ANET_VOL) + "\n\n"
-print "======================================================================\n"
-print "NASDAQ (CCMP): \t\t" + (NDAQ_PRICE) + " " + (NDAQ_CHANGE)
-print "Dow Jones (INDU):\t" + (DJIA_PRICE) + " " + (DJIA_CHANGE)
-print "cisco (CSCO): \t\t" + (CSCO_PRICE) + " " + (CSCO_CHANGE)
-"""
-
+stockInfo = json.loads(tehJason)
+'''
+for item in stockInfo:
+    print '\n'
+    print 'Ticker', item['t']
+    print 'Last', item['l']
+    print 'Change', item['c']
+    print '% change', item['cp']
+    print 'Last trade', item['lt_dts']
+print json.dumps(stockInfo ,indent=4)
+'''
+f = open('/home/osbjmg/isanetbelow60.com/bin/STOCKS.json', 'w+')
+f.write(json.dumps(stockInfo,indent=4))
 f.close()
