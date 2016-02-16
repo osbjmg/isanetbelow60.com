@@ -1,5 +1,5 @@
 <?php
-$filename = 'STOCKS.json';
+$filename = 'STOCK_RT.json';
 $filepath = 'bin/'.$filename;
 $sixty = 60.00;
 $theTicker = 'ANET';
@@ -7,6 +7,7 @@ $price ='';
 $change='';
 $percentChange='';
 $theTime='';
+$pos_or_neg=''
 ?>
 <?php
 if (file_exists($filepath)) {
@@ -67,20 +68,23 @@ if (file_exists($filepath)) {
    <br>
    <?php
    if($price < $sixty) {
-       echo "<b><font size=128 color=red>YES</font></b> <br><br>";
+       echo "<b><font size=100 color=#990012>YES</font></b> <br><br>";
        echo "<img src='images/m.chandler.jpg' alt='A Lawyer'><br><br><br>";
-       echo "ANET <a href=https://www.google.com/finance?q=anet target=_blank>$".$price."</a>";
    }
    else {
        echo "<b><font size=128 color=green>NO</font></b> <br><br>";
        echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
-       echo "<h2><font size=100>ANET <a href='https://www.google.com/finance?q=anet' target=_blank>$".$price."</a></font></h2>";
    }
-
+   echo "<h2><font size=100>ANET <a href='https://www.google.com/finance?q=anet' target=_blank>$".$price."</a></font></h2>";
+   if((float)$percentChange > 0){
+       $pos_or_neg = 'green';
+   } elseif ((float)$percentChange < 0) {
+       $pos_or_neg = '#990012';
+   }
+   echo "<h3><font color=".$pos_or_neg.">".$change." (".$percentChange."%)</font></h3>";
    #echo "<br><br><br><br>";
-
    #echo "<div align=right>";
-   echo "<font id=tiny color='#ccc'> *as of ".$theTime."</font>";
+   echo "<br><font id=tiny color='#ccc'> * as of ".$theTime."</font>";
    #echo "</div>";
    ?>
 
