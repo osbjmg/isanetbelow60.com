@@ -2,6 +2,7 @@
 $filename = 'STOCK_RT.json';
 $filepath = 'bin/'.$filename;
 $sixty = 60.00;
+$hundy = 100.00;
 $theTicker = 'ANET';
 $price ='';
 $change='';
@@ -52,8 +53,14 @@ if (file_exists($filepath)) {
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  }
  else {
-     echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-     echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
+     if($price < $hundy) {
+         echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
+         echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
+     } else {
+        echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
+        echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
+
+     }
  }
  ?>
 
