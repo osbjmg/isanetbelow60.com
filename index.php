@@ -59,7 +59,6 @@ if (file_exists($filepath)) {
      } else {
         echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
         echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
-
      }
  }
  ?>
