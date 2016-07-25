@@ -4,7 +4,7 @@ This is the source for the website: <a href =http://www.isanetbelow60.com>isanet
 
 ### notes
 Two files are created:
-
+<br>
 *bin/STOCK_RT.json* to store the real-time price and timestamp
 <br>
 *bin/STOCK_HIST.json* to store historical prices, used to generate trend/histogram
