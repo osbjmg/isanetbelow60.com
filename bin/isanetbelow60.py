@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import os
-import ystockquote
 from pprint import pprint
+import ystockquote
 import requests
 import json
 import re
@@ -31,7 +31,7 @@ print json.dumps(stockInfo ,indent=4)
 '''
 # I can ask ystockqote for the previous week/month of closing prices, and plot them
 # let's try the past 30 days
-stockInfo_hist = ystockquote.get_historical_prices('ANET', '2016-01-19', '2016-02-19')
+stockInfo_hist = ystockquote.get_historical_prices('ANET', '2016-05-18', '2016-05-19')
 
 f_rt = open('/home/osbjmg/isanetbelow60.com/bin/STOCK_RT.json', 'w+')
 f_rt.write(json.dumps(stockInfo,indent=4))
