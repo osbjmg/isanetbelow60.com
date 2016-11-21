@@ -52,18 +52,16 @@ if (file_exists($filepath)) {
  if($price < $sixty) {
      echo '<meta name="description" content=" Yes: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
- }
- else {
-     if($price < $hundy) {
+ } else {
+     if ($price > $hundy) {
          echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
-     } elseif ($price >= $ninty) {
+         echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
+     } elseif($price >= $ninty) {
          echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://isanetbelow60.com/images/adam_pokemon.jpg" />';
-     
+         echo '<meta property="og:image" content="http://isanetbelow60.com/images/adam_pokemon.jpg" />';     
      } else {
         echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-        echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
+        echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
      }
  }
  ?>
