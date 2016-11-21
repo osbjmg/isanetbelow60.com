@@ -58,10 +58,12 @@ if (file_exists($filepath)) {
          echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
      } elseif($price >= $ninty) {
          echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://isanetbelow60.com/images/adam_pokemon.jpg" />';     
+         echo '<meta property="og:image" content="http://isanetbelow60.com/images/adam_pokemon.jpg" />'; 
+         echo 'pokemons';
      } else {
         echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
         echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
+        echo 'dudas';
      }
  }
  ?>
