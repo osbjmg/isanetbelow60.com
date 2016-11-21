@@ -93,8 +93,10 @@ if (file_exists($filepath)) {
    echo "<br><font id=tiny color='#ccc'> * as of ".$theTime."</font>";
    #echo "</div>";
    ?>
+   <!-- <br>
+   <iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~osbjmg/10.embed"></iframe>
+   -->
+ </div>
 
-   <br>
-  </div>
  </body>
 </html>
