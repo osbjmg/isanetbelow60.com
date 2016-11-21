@@ -85,7 +85,7 @@ if (file_exists($filepath)) {
            echo "<img src='images/adam_pokemon.jpg' alt='Pokemon'><br><br><br>";
        } else {
            echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
-      }
+       }
    }
    echo "<h2><font size=100>ANET <a href='https://www.google.com/finance?q=anet' target=_blank>$".$price."</a></font></h2>";
    if((float)$percentChange > 0){
