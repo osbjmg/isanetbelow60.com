@@ -53,17 +53,13 @@ if (file_exists($filepath)) {
      echo '<meta name="description" content=" Yes: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  } else {
+     echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      if ($price > $hundy) {
-         echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
          echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
      } elseif($price >= $ninty) {
-         echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
          echo '<meta property="og:image" content="http://isanetbelow60.com/images/adam_pokemon.jpg" />'; 
-         echo 'pokemons';
      } else {
-        echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
         echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
-        echo 'dudas';
      }
  }
  ?>
@@ -81,10 +77,14 @@ if (file_exists($filepath)) {
    if($price < $sixty) {
        echo "<b><font size=100 color=#990012>YES</font></b> <br><br>";
        echo "<img src='images/m.chandler.jpg' alt='A Lawyer'><br><br><br>";
-   }
-   else {
+   } else {
        echo "<b><font size=128 color=green>NO</font></b> <br><br>";
-       echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
+       if ($price > $hundy) {
+           echo "<img src='images/duda_hug.jpg' alt='Kenneth Duda'><br><br><br>";
+       } elseif ($price >= $ninty) {
+           echo "<img src='images/adam_pokemon.jpg' alt='Pokemon'><br><br><br>";
+       } else {
+           echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
    }
    echo "<h2><font size=100>ANET <a href='https://www.google.com/finance?q=anet' target=_blank>$".$price."</a></font></h2>";
    if((float)$percentChange > 0){
