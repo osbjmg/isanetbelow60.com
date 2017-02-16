@@ -9,7 +9,10 @@ $price ='';
 $change='';
 $percentChange='';
 $theTime='';
-$pos_or_neg=''
+$pos_or_neg='';
+$this_site='';
+$this_site_number='';
+$above_or_below='';
 ?>
 <?php
 if (file_exists($filepath)) {
@@ -32,17 +35,27 @@ if (file_exists($filepath)) {
         } elseif ($_key == 'ltt') {
             $theTime = $_val;
         }
-
     }
 } else {
      echo "Oops.  I have no clue at what price ANET is trading.";
+}
+
+$this_site = $_SERVER['HTTP_HOST'];
+if (strpos($this_site,'60') !== false) {
+   $this_site_num='60';
+   $above_or_below='below';
+} elseif (strpos($this_site,'100') !== false) {
+   $this_site_num='100';
+   $above_or_below='above';
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
  <head>
- <title>Is ANET below $60?</title>
+ <?php
+ echo '<title>Is ANET '.$above_or_below.' $'.$this_site_num.'</title>';
+ ?>
  <link rel="canonical" href="http://isanetbelow60.com" />
  <link href="styles.css" rel="stylesheet" type="text/css" />
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -67,7 +80,9 @@ if (file_exists($filepath)) {
  </head>
  <body>
   <div id=top align=center>
-   <h1>Is ANET below $60?</h1>
+   <?php
+   echo '<h1>Is ANET '.$above_or_below.' $'.$this_site_num.'?</h1>';
+   ?>
   </div>
   <div id=middle  align=center>
    <br>
