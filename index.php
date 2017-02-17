@@ -61,24 +61,23 @@ if (strpos($this_site,'60') !== false) {
  <head>
  <?php
  echo '<title>Is ANET '.$above_or_below.' $'.$this_site_number.'</title>';
- ?>
- <link rel="canonical" href="http://isanetbelow60.com" />
- <link href="styles.css" rel="stylesheet" type="text/css" />
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- <meta http-equiv="refresh" content="305" />
- <meta property="og:site_name" content="isanetbelow60.com" />
- <?php
+ echo '<link rel="canonical" href="http://'.$this_site.'" />';
+ echo '<link href="styles.css" rel="stylesheet" type="text/css" />';
+ echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+ echo '<meta http-equiv="refresh" content="305" />';
+ echo '<meta property="og:site_name" content="'.$this_site.'" />';
+
  if($price < $sixty) {
-     echo '<meta name="description" content=" '.$good.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-     echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
- } else {
      echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
+     echo '<meta property="og:image" content="http://'.$this_site.'/images/m.chandler.jpg" />';
+ } else {
+     echo '<meta name="description" content=" '.$good.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      if ($price > $hundy) {
-         echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
+         echo '<meta property="og:image" content="http://'.$this_site.'/images/duda_hug.jpg" />';
      } elseif($price >= $ninty) {
-         echo '<meta property="og:image" content="http://isanetbelow60.com/images/adam_pokemon.jpg" />';
+         echo '<meta property="og:image" content="http://'.$this_site.'/images/adam_pokemon.jpg" />';
      } else {
-        echo '<meta property="og:image" content="http://isanetbelow60.com/images/kenneth_duda.jpg" />';
+        echo '<meta property="og:image" content="http://'.$this_site.'/images/kenneth_duda.jpg" />';
      }
  }
  ?>
