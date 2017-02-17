@@ -29,6 +29,7 @@ for item in stockInfo:
     print 'Last trade', item['lt_dts']
 print json.dumps(stockInfo ,indent=4)
 '''
+
 # I can ask ystockqote for the previous week/month of closing prices, and plot them
 # let's try the past 30 days
 stockInfo_hist = ystockquote.get_historical_prices('ANET', '2016-05-18', '2016-05-19')
