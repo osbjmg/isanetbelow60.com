@@ -13,6 +13,8 @@ $pos_or_neg='';
 $this_site='';
 $this_site_number='';
 $above_or_below='';
+$good='';
+$bad='';
 ?>
 <?php
 if (file_exists($filepath)) {
@@ -42,11 +44,15 @@ if (file_exists($filepath)) {
 
 $this_site = $_SERVER['HTTP_HOST'];
 if (strpos($this_site,'60') !== false) {
-   $this_site_num='60';
+   $this_site_number='60';
    $above_or_below='below';
+   $good='No';
+   $bad='Yes';
 } elseif (strpos($this_site,'100') !== false) {
-   $this_site_num='100';
+   $this_site_number='100';
    $above_or_below='above';
+   $good='Yes';
+   $bad='No';
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -54,7 +60,7 @@ if (strpos($this_site,'60') !== false) {
 <html lang="en">
  <head>
  <?php
- echo '<title>Is ANET '.$above_or_below.' $'.$this_site_num.'</title>';
+ echo '<title>Is ANET '.$above_or_below.' $'.$this_site_number.'</title>';
  ?>
  <link rel="canonical" href="http://isanetbelow60.com" />
  <link href="styles.css" rel="stylesheet" type="text/css" />
@@ -63,10 +69,10 @@ if (strpos($this_site,'60') !== false) {
  <meta property="og:site_name" content="isanetbelow60.com" />
  <?php
  if($price < $sixty) {
-     echo '<meta name="description" content=" Yes: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
+     echo '<meta name="description" content=" '.$good.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      echo '<meta property="og:image" content="http://isanetbelow60.com/images/m.chandler.jpg" />';
  } else {
-     echo '<meta name="description" content=" No: $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
+     echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
      if ($price > $hundy) {
          echo '<meta property="og:image" content="http://isanetbelow60.com/images/duda_hug.jpg" />';
      } elseif($price >= $ninty) {
@@ -81,7 +87,7 @@ if (strpos($this_site,'60') !== false) {
  <body>
   <div id=top align=center>
    <?php
-   echo '<h1>Is ANET '.$above_or_below.' $'.$this_site_num.'?</h1>';
+   echo '<h1>Is ANET '.$above_or_below.' $'.$this_site_number.'?</h1>';
    ?>
   </div>
   <div id=middle  align=center>
@@ -89,11 +95,11 @@ if (strpos($this_site,'60') !== false) {
    <br>
    <br>
    <?php
-   if($price < $sixty) {
-       echo "<b><font size=100 color=#990012>YES</font></b> <br><br>";
+   if( $price < $sixty ) {
+       echo "<b><font size=100 color=#990012>".strtoupper($bad)."</font></b> <br><br>";
        echo "<img src='images/m.chandler.jpg' alt='A Lawyer'><br><br><br>";
    } else {
-       echo "<b><font size=128 color=green>NO</font></b> <br><br>";
+       echo "<b><font size=128 color=green>".strtoupper($good)."</font></b> <br><br>";
        if ($price > $hundy) {
            echo "<img src='images/duda_hug.jpg' alt='Kenneth Duda'><br><br><br>";
        } elseif ($price >= $ninty) {
@@ -102,6 +108,7 @@ if (strpos($this_site,'60') !== false) {
            echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
        }
    }
+
    echo "<h2><font size=100>ANET <a href='https://www.google.com/finance?q=anet' target=_blank>$".$price."</a></font></h2>";
    if((float)$percentChange > 0){
        $pos_or_neg = 'green';
