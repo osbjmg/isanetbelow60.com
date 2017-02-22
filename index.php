@@ -5,6 +5,7 @@ $sixty = 60.00;
 $hundy = 100.00;
 $ninty = 90.00;
 $theTicker = 'ANET';
+$tzOffset = '05:00';
 $price ='';
 $change='';
 $percentChange='';
@@ -37,7 +38,7 @@ if (file_exists($filepath)) {
         } elseif ($_key == 'lt') {
             $theDate = $_val;
         } elseif ($_key == 'lt_dts') {
-            $theDateZ = $_val;
+            $theDateZ = str_replace("Z","-$tzOffset", $_val);
         }
     }
 } else {
@@ -70,7 +71,7 @@ if (strpos($this_site,'60') !== false) {
  echo '<meta property="og:site_name" content="'.$this_site.'" />';
  echo '<meta name="twitter:label1" value="Reading time"><meta name="twitter:data1" value="1 min">';
  #echo '<meta name="twitter:label2" value="Updated"><meta name="twitter:data2" value="'.$theDate.'">';
- echo '<meta property="article:published_time" content="'.$theDateZ.'-05:00" />';
+ echo '<meta property="article:published_time" content="'.$theDateZ.'" />';
 
  if($price < $sixty) {
      echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
