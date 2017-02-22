@@ -39,7 +39,6 @@ if (file_exists($filepath)) {
         } elseif ($_key == 'lt') {
             $theDate = $_val;
         }
-        
     }
 } else {
      echo "Oops.  I have no clue at what price ANET is trading.";
