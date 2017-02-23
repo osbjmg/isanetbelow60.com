@@ -69,9 +69,9 @@ if (strpos($this_site,'60') !== false) {
  echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
  echo '<meta http-equiv="refresh" content="305" />';
  echo '<meta property="og:site_name" content="'.$this_site.'" />';
- echo '<meta name="twitter:label1" value="Reading time"><meta name="twitter:data1" value="1 min">';
- #echo '<meta name="twitter:label2" value="Updated"><meta name="twitter:data2" value="'.$theDate.'">';
- echo '<meta property="article:published_time" content="'.$theDateZ.'" />';
+ echo '<meta name="twitter:label1" value="Updated"><meta name="twitter:data1" value="'.$theDate.'">';
+ echo '<meta name="twitter:label2" value="Reading time"><meta name="twitter:data2" value="~ 1 minute">';
+ #echo '<meta property="article:published_time" content="'.$theDateZ.'" />';
 
  if($price < $sixty) {
      echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
