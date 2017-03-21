@@ -4,6 +4,7 @@ $filepath = 'bin/'.$filename;
 $sixty = 60.00;
 $hundy = 100.00;
 $ninty = 90.00;
+$oneSixty = 160.00;
 $theTicker = 'ANET';
 $tzOffset = '05:00';
 $price ='';
@@ -56,7 +57,13 @@ if (strpos($this_site,'60') !== false) {
    $above_or_below='above';
    $good='Yes';
    $bad='No';
+} elseif (strpos($this_site,'150') !== false) {
+   $this_site_number='150';
+   $above_or_below='above';
+   $good='Yes';
+   $bad='No';
 }
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
