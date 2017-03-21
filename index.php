@@ -52,13 +52,13 @@ if (strpos($this_site,'60') !== false) {
    $above_or_below='below';
    $good='No';
    $bad='Yes';
-} elseif (strpos($this_site,'100') !== false) {
-   $this_site_number='100';
+} elseif (strpos($this_site,'150') !== false) {
+   $this_site_number='150';
    $above_or_below='above';
    $good='Yes';
    $bad='No';
-} elseif (strpos($this_site,'150') !== false) {
-   $this_site_number='150';
+} elseif (strpos($this_site,'100') !== false) {
+   $this_site_number='100';
    $above_or_below='above';
    $good='Yes';
    $bad='No';
