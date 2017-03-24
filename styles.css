@@ -9,6 +9,32 @@ body {
 	background-color: #eee;
 	}
 
+span.good {
+        font-size: 3em;
+        color: green;
+        }
+
+span.bad {
+        font-size: 3em;
+        color: #990012;
+        }
+
+span.pctChgPos {
+        color: green;
+        }
+
+span.pctChgNeg {
+        color: #990012;
+        }
+
+span.tiny {
+        font-size: 9px;
+        line-height: 16px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #ccc;
+        }
+
 a {
 	text-decoration: none;
 	font-weight: bold;
@@ -94,7 +120,7 @@ img {
 /* must be combined with nobr in html for ie5win */
 	}
 #tiny {
-	font-size: 9px;
+	font-size: 90px;
 	line-height: 16px;
 	margin-top: 15px;
 	margin-bottom: 5px; 
