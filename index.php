@@ -3,16 +3,8 @@ $filename = 'STOCK_RT.json';
 $filepath = 'bin/'.$filename;
 $theTicker = 'ANET';
 $tzOffset = '04:00'; // EDT 4, EST 5
-$price ='';
-$change='';
-$percentChange='';
-$pos_or_neg='';
-$this_site='';
-$this_site_number='';
-$above_or_below='';
-$good='';
-$bad='';
 
+// Get current stock info
 if (file_exists($filepath)) {
     $stockInfo = json_decode(file_get_contents($filepath),true);
     $interesting_key = array_search($theTicker, array_column($stockInfo, 't'));
@@ -39,25 +31,82 @@ if (file_exists($filepath)) {
         }
     }
 } else {
+     $price = NULL;
+     $change = NULL;
+     $percentChange = NULL;
      echo "Oops.  I have no clue at what price ANET is trading.";
 }
 
+// color the change and percent change number based on positive or negative change
+if (!is_null($percentChange)) {
+    if ((double)$percentChange > 0){
+        $pos_or_neg = 'pctChgPos';
+    } elseif ((double)$percentChange < 0) {
+        $pos_or_neg = 'pctChgNeg';
+    }
+}
+
+// Read URI and determine the website we are on, ie.: isanetabove100.com, isanetbelow60.com, ...
 $this_site = $_SERVER['HTTP_HOST'];
 if (strpos($this_site,'60') !== false) {
    $this_site_number='60';
    $above_or_below='below';
    $good='No';
    $bad='Yes';
-} elseif (strpos($this_site,'150') !== false) {
-   $this_site_number='150';
-   $above_or_below='above';
-   $good='Yes';
-   $bad='No';
 } elseif (strpos($this_site,'100') !== false) {
    $this_site_number='100';
    $above_or_below='above';
    $good='Yes';
    $bad='No';
+} elseif (strpos($this_site,'150') !== false) {
+   $this_site_number='150';
+   $above_or_below='above';
+   $good='Yes';
+   $bad='No';
+} else {
+   $this_site_number='0';
+   $above_or_below='unknown';
+   $good='unknown';
+   $bad='unknown';
+}
+
+// logic for site name to price decisions
+if($above_or_below == 'below' && $price > (double)$this_site_number) { // Website is a pessimistic URL (isanetbelow60.com), but we beat it
+    $answer = $good;
+    $displayedImage  = 'kenneth_duda.jpg';
+    $fontStyleGoodOrBad = 'good';
+} elseif ($above_or_below == 'below' && $price <= (double)$this_site_number) { // Website is a pessimistic URL, and we did not beat it
+    $answer = $bad;
+    $displayedImage = 'm.chandler.jpg';
+    $fontStyleGoodOrBad = 'bad';
+} else { // Website is an optimistic URL (isanetabove100.com)
+    if ($price > (double)$this_site_number + ((double)$this_site_number*0.10)) { // 10% or more above the website price
+        $answer = $good;
+       $displayedImage = 'duda_hug.jpg'; 
+        $fontStyleGoodOrBad = 'good';
+    } elseif ($price > (double)$this_site_number && $price <= ((double)$this_site_number + ((double)$this_site_number*0.10))) { // Between just above price and 10% above the website price
+        $answer = $good;
+        $displayedImage = 'adam_pokemon.jpg';
+        $fontStyleGoodOrBad = 'good';
+    } elseif($price > (double)$this_site_number - ((double)$this_site_number *0.50)) { // Between 50% below and  just below the website price
+        $answer = $bad;
+        $displayedImage = 'kenneth_duda.jpg';
+        $fontStyleGoodOrBad = 'bad';
+    } else { // Below 50% of the website price
+        $answer = $bad;
+        $displayedImage = 'm.chandler.jpg';
+        $fontStyleGoodOrBad = 'bad';
+    }
+}
+
+if ($displayedImage == 'duda_hug.jpg') {
+    $displayedImageAltText = 'Kenneth Duda';
+} elseif ($displayedImage == 'kenneth_duda.jpg') {
+    $displayedImageAltText = 'Kenneth Duda';
+} elseif ($displayedImage == 'adam_pokemon.jpg') {
+    $displayedImageAltText = 'A pokemon';
+} elseif ($displayedImage == 'm.chandler.jpg') {
+    $displayedImageAltText = 'A lawyer';
 }
 
 ?>
@@ -75,28 +124,8 @@ if (strpos($this_site,'60') !== false) {
  echo '<meta name="twitter:label1" value="Updated"><meta name="twitter:data1" value="'.$theDate.'">';
  echo '<meta name="twitter:label2" value="Reading time"><meta name="twitter:data2" value="~ 1 minute">';
  #echo '<meta property="article:published_time" content="'.$theDateZ.'" />';
-
- if($above_or_below == 'below' && $price > (double)$this_site_number) { // Website is a pessimistic URL (isanetbelow60.com), but we beat it
-     echo '<meta name="description" content=" '.$good.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-     echo '<meta property="og:image" content="http://'.$this_site.'/images/kenneth_duda.jpg" />';
- } elseif ($above_or_below == 'below' && $price <= (double)$this_site_number) { // Website is a pessimistic URL, and we did not beat it
-     echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-     echo '<meta property="og:image" content="http://'.$this_site.'/images/m.chandler.jpg" />';
- } else { // Website is an optimistic URL (isanetabove100.com)
-     if ($price > (double)$this_site_number + ((double)$this_site_number*0.10)) { // 10% or more above the website price
-         echo '<meta name="description" content=" '.$good.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://'.$this_site.'/images/duda_hug.jpg" />';
-     } elseif ($price > (double)$this_site_number && $price <= ((double)$this_site_number + ((double)$this_site_number*0.10))) { // Between just above price and 10% above the website price
-         echo '<meta name="description" content=" '.$good.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://'.$this_site.'/images/adam_pokemon.jpg" />';
-     } elseif($price > (double)$this_site_number - ((double)$this_site_number *0.50)) { // Between 50% below and  just below the website price
-         echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://'.$this_site.'/images/kenneth_duda.jpg" />';
-     } else { // Below 50% of the website price
-         echo '<meta name="description" content=" '.$bad.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
-         echo '<meta property="og:image" content="http://'.$this_site.'/images/m.chandler.jpg" />';
-     }
- }
+ echo '<meta name="description" content=" '.$answer.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
+ echo '<meta property="og:image" content="http://'.$this_site.'/images/'.$displayedImage.'"/>';
  ?>
 
  </head>
@@ -109,41 +138,12 @@ if (strpos($this_site,'60') !== false) {
   <div id=middle  align=center>
    <br>
    <br>
-   <br>
    <?php
-   if($above_or_below == 'below' && $price > (double)$this_site_number) { // Website is a pessimistic URL (isanetbelow60.com), but we beat it
-       echo "<b><font size=128 color=green>".strtoupper($good)."</font></b> <br><br>";
-       echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
-   } elseif ($above_or_below == 'below' && $price <= (double)$this_site_number) { // Website is a pessimistic URL, and we did not beat it
-       echo "<b><font size=100 color=#990012>".strtoupper($bad)."</font></b> <br><br>";
-       echo "<img src='images/m.chandler.jpg' alt='A Lawyer'><br><br><br>";
-   } else { // Website is an optimistic URL (isanetabove100.com)
-       if ($price > (double)$this_site_number + ((double)$this_site_number*0.10)) { // 10% or more above the website price
-       echo "<b><font size=128 color=green>".strtoupper($good)."</font></b> <br><br>";
-       echo "<img src='images/duda_hug.jpg' alt='Kenneth Duda'><br><br><br>";
-       } elseif ($price > (double)$this_site_number && $price <= ((double)$this_site_number + ((double)$this_site_number*0.10))) { // Between > price and 10% above the website price
-           echo "<b><font size=128 color=green>".strtoupper($good)."</font></b> <br><br>";
-           echo "<img src='images/adam_pokemon.jpg' alt='Pokemon'><br><br><br>";
-       } elseif($price > ((double)$this_site_number - ((double)$this_site_number *0.50))) { // Between 50% below and just below the website price
-           echo "<b><font size=100 color=#990012>".strtoupper($bad)."</font></b> <br><br>";
-           echo "<img src='images/kenneth_duda.jpg' alt='Kenneth Duda'><br><br><br>";
-       } else { // Below 50% of the website price
-           echo "<b><font size=100 color=#990012>".strtoupper($bad)."</font></b> <br><br>";
-           echo "<img src='images/m.chandler.jpg' alt='A Lawyer'><br><br><br>";
-       }
-   }
-
-   echo "<h2><font size=100>ANET <a href='https://www.google.com/finance?q=anet' target=_blank>$".$price."</a></font></h2>";
-   if((float)$percentChange > 0){
-       $pos_or_neg = 'green';
-   } elseif ((float)$percentChange < 0) {
-       $pos_or_neg = '#990012';
-   }
-   echo "<h3><font color=".$pos_or_neg.">".$change." (".$percentChange."%)</font></h3>";
-   #echo "<br><br><br><br>";
-   #echo "<div align=right>";
-   echo "<br><font id=tiny color='#ccc'> * as of ".$theTime."</font>";
-   #echo "</div>";
+   echo '<b><span class="'.$fontStyleGoodOrBad.'">'.strtoupper($answer).'</span></b> <br><br>';
+   echo '<img src="images/'.$displayedImage.'" alt="'.$displayedImageAltText.'"><br><br>';
+   echo '<h1>ANET <a href="https://www.google.com/finance?q=anet" target=_blank>$'.$price.'</a></font></h2>';
+   echo '<h3><span class="'.$pos_or_neg.'">'.$change.'('.$percentChange.'%)</font></h3>';
+   echo '<br><span class="tiny"> * as of '.$theTime.'</font>';
    ?>
    <!-- <br>
    <iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~osbjmg/10.embed"></iframe>
