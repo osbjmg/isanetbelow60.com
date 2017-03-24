@@ -70,32 +70,49 @@ if (strpos($this_site,'60') !== false) {
    $bad='unknown';
 }
 
+// Define Emoji
+$emojiHeartEyes ="\u{1F60D}";
+$emojiHeadBandage = "\u{1F915}";
+$emojiSeeNoEvil = "\u{1F648}";
+$emojiPersevere = "\u{1F623}";
+$emojiRollingEyes = "\u{1F644}";
+$emojiFire = "\u{1F525}";
+$emojiJudge = "\u{1F469}";
+$emojiGrin = "\u{1F601}";
+$emojiHug = "\u{1F917}";
+
 // logic for site name to price decisions
 if($above_or_below == 'below' && $price > (double)$this_site_number) { // Website is a pessimistic URL (isanetbelow60.com), but we beat it
     $answer = $good;
     $displayedImage  = 'kenneth_duda.jpg';
     $fontStyleGoodOrBad = 'good';
+    $emoji = $emojiHeartEyes;
 } elseif ($above_or_below == 'below' && $price <= (double)$this_site_number) { // Website is a pessimistic URL, and we did not beat it
     $answer = $bad;
     $displayedImage = 'm.chandler.jpg';
     $fontStyleGoodOrBad = 'bad';
+    $emoji = $emojiJudge;
 } else { // Website is an optimistic URL (isanetabove100.com)
     if ($price > (double)$this_site_number + ((double)$this_site_number*0.10)) { // 10% or more above the website price
         $answer = $good;
-       $displayedImage = 'duda_hug.jpg'; 
+        $displayedImage = 'duda_hug.jpg'; 
         $fontStyleGoodOrBad = 'good';
+        $emoji = $emojiHug;
     } elseif ($price > (double)$this_site_number && $price <= ((double)$this_site_number + ((double)$this_site_number*0.10))) { // Between just above price and 10% above the website price
         $answer = $good;
         $displayedImage = 'adam_pokemon.jpg';
         $fontStyleGoodOrBad = 'good';
+        $emoji = $emojiGrin;
     } elseif($price > (double)$this_site_number - ((double)$this_site_number *0.50)) { // Between 50% below and  just below the website price
         $answer = $bad;
         $displayedImage = 'kenneth_duda.jpg';
         $fontStyleGoodOrBad = 'bad';
+        $emoji = $emojiPersevere;
     } else { // Below 50% of the website price
         $answer = $bad;
         $displayedImage = 'm.chandler.jpg';
         $fontStyleGoodOrBad = 'bad';
+        $emoji = $emojiJudge;
     }
 }
 
@@ -139,7 +156,7 @@ if ($displayedImage == 'duda_hug.jpg') {
    <br>
    <br>
    <?php
-   echo '<b><span class="'.$fontStyleGoodOrBad.'">'.strtoupper($answer).'</span></b> <br><br>';
+   echo '<b><span class="'.$fontStyleGoodOrBad.'">'.strtoupper($answer).' '.$emoji.'<span></b> <br><br>';
    echo '<img src="images/'.$displayedImage.'" alt="'.$displayedImageAltText.'"><br><br>';
    echo '<h1>ANET <a href="https://www.google.com/finance?q=anet" target=_blank>$'.$price.'</a></font></h2>';
    echo '<h3><span class="'.$pos_or_neg.'">'.$change.'('.$percentChange.'%)</font></h3>';
