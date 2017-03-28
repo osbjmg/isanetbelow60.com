@@ -47,7 +47,7 @@ if (!is_null($percentChange)) {
 }
 
 // Read URI and determine the website we are on, ie.: isanetabove100.com, isanetbelow60.com, ...
-$this_site = $_SERVER['HTTP_HOST'];
+$this_site = $_SERVER['HTTP_HOST']; //todo: add a try/catch/finally here and default to some price
 if (strpos($this_site,'60') !== false) {
    $this_site_number='60';
    $above_or_below='below';
