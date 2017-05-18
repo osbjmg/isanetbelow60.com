@@ -5,6 +5,7 @@ import ystockquote
 import requests
 import json
 import re
+import urllib2
 
 # maybe look into https://github.com/hongtaocai/googlefinance
 alphabetFinance= 'http://finance.google.com/finance/info?q='
@@ -40,5 +41,8 @@ try:
     f_hist = open ('/home/osbjmg/isanetbelow60.com/bin/STOCK_HIST.json', 'w+')
     f_hist.write(json.dumps(stockInfo_hist,indent=4))
     f_hist.close()
+except urllib2.HTTPError, error:
+    print ('ystockquote caught an HTTP error:') 
+    print ('    {}'.format(error))
 except:
-    print "Error: ystockquote.get_historical_prices failed."
+    print('An error has occurred.')
