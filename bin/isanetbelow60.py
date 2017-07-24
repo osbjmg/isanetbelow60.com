@@ -36,13 +36,13 @@ f_rt.close()
 
 # I can ask ystockqote for the previous week/month of closing prices, and plot them
 # let's try the past 30 days
-try:
-    stockInfo_hist = ystockquote.get_historical_prices('ANET', '2016-05-18', '2016-05-19')
-    f_hist = open ('/home/osbjmg/isanetbelow60.com/bin/STOCK_HIST.json', 'w+')
-    f_hist.write(json.dumps(stockInfo_hist,indent=4))
-    f_hist.close()
-except urllib2.HTTPError, error:
-    print ('ystockquote caught an HTTP error:') 
-    print ('    {}'.format(error))
-except:
-    print('An error has occurred.')
+#try:
+#    stockInfo_hist = ystockquote.get_historical_prices('ANET', '2016-05-18', '2016-05-19')
+#    f_hist = open ('/home/osbjmg/isanetbelow60.com/bin/STOCK_HIST.json', 'w+')
+#    f_hist.write(json.dumps(stockInfo_hist,indent=4))
+#    f_hist.close()
+#except urllib2.HTTPError, error:
+#    print ('ystockquote caught an HTTP error:') 
+#    print ('    {}'.format(error))
+#except:
+#    print('An error has occurred.')
