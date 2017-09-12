@@ -32,13 +32,14 @@ r = requests.get(url)
 stockInfo = json.loads(r.content[6:-2].decode('unicode_escape'))
 outerlist = []
 fin_data_structure = {}
-fin_data_structure["t"] = stockInfo['t']
-fin_data_structure["l"] = stockInfo['l']
-fin_data_structure["c"] = stockInfo['c']
-fin_data_structure["cp"] = stockInfo['cp']
+fin_data_structure['t'] = stockInfo['t']
+fin_data_structure['l'] = stockInfo['l']
+fin_data_structure['c'] = stockInfo['c']
+fin_data_structure['cp'] = stockInfo['cp']
 #obviously data is fake, looks like new google json has no date
-fin_data_structure["lt"] = 'Feb 22, 11:34AM EST'
-fin_data_structure["ltt"] = '11:34AM EST'
+fin_data_structure['lt'] = 'Feb 22, 11:34AM EST'
+fin_data_structure['ltt'] = '11:34AM EST'
+fin_data_structure['lt_dts'] = '2017-02-22T11:35:01Z'
 
 outerlist.append(fin_data_structure)
 
