@@ -7,19 +7,42 @@ import json
 import re
 import urllib2
 
-# maybe look into https://github.com/hongtaocai/googlefinance
-alphabetFinance= 'http://finance.google.com/finance/info?q='
+# ToDo:
+#  - fix 'lt' and 'ltt' dates for last trade date and time
 
-tickers = ['ANET','CSCO']
+# issues with the following URI started September 2017
+#  https://github.com/hongtaocai/googlefinance/issues/39
+# old URI:
+#  alphabetFinance= 'http://finance.google.com/finance/info?q='
+
+alphabetFinance = 'https://finance.google.com/finance?q='
+
+#tickers = ['ANET','TSLA', 'F']
+tickers = ['ANET']
 tickerString = ''
 if len(tickers) <= 1:
     tickerString = tickers[0]
 else :
     tickerString = ','.join(tickers)
-url = alphabetFinance + tickerString
+url = alphabetFinance + tickerString + '&output=json'
 r = requests.get(url)
-tehJason = re.sub('^\s//\s','',r.text)
-stockInfo = json.loads(tehJason)
+#tehJason = re.sub('^\s//\s','',r.text)
+#stockInfo = json.loads(tehJason)
+
+stockInfo = json.loads(r.content[6:-2].decode('unicode_escape'))
+outerlist = []
+fin_data_structure = {}
+fin_data_structure['t'] = stockInfo['t']
+fin_data_structure['l'] = stockInfo['l']
+fin_data_structure['c'] = stockInfo['c']
+fin_data_structure['cp'] = stockInfo['cp']
+#obviously data is fake, looks like new google json has no date
+fin_data_structure['lt'] = 'Feb 22, 11:34AM EST'
+fin_data_structure['ltt'] = '11:34AM EST'
+fin_data_structure['lt_dts'] = '2017-02-22T11:35:01Z'
+
+outerlist.append(fin_data_structure)
+
 '''
 for item in stockInfo:
     print '\n'
@@ -31,7 +54,7 @@ for item in stockInfo:
 print json.dumps(stockInfo ,indent=4)
 '''
 f_rt = open('/home/osbjmg/isanetbelow60.com/bin/STOCK_RT.json', 'w+')
-f_rt.write(json.dumps(stockInfo,indent=4))
+f_rt.write(json.dumps(outerlist, indent=4))
 f_rt.close()
 
 # I can ask ystockqote for the previous week/month of closing prices, and plot them
@@ -42,7 +65,7 @@ f_rt.close()
 #    f_hist.write(json.dumps(stockInfo_hist,indent=4))
 #    f_hist.close()
 #except urllib2.HTTPError, error:
-#    print ('ystockquote caught an HTTP error:') 
+#    print ('ystockquote caught an HTTP error:')
 #    print ('    {}'.format(error))
 #except:
 #    print('An error has occurred.')
