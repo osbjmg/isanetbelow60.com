@@ -53,6 +53,7 @@ for item in stockInfo:
     print 'Last trade', item['lt_dts']
 print json.dumps(stockInfo ,indent=4)
 '''
+
 f_rt = open('/home/osbjmg/isanetbelow60.com/bin/STOCK_RT.json', 'w+')
 f_rt.write(json.dumps(outerlist, indent=4))
 f_rt.close()
