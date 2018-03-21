@@ -80,7 +80,7 @@ for item in stockInfo:
 print json.dumps(stockInfo ,indent=4)
 '''
 
-f_rt = open('/home/osbjmg/code/isanet-dev/bin/STOCK_RT.json', 'w+')
+f_rt = open('/home/osbjmg/isanetbelow60.com/bin/STOCK_RT.json', 'w+')
 f_rt.write(json.dumps(outerlist, indent=4))
 f_rt.close()
 
