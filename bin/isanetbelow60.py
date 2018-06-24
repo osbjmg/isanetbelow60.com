@@ -5,13 +5,18 @@ import json
 import re
 import urllib2
 import sys
+import time
 #import ystockquote
-
+import pprint
 # Changes:
 # Google started to block me again on Mar 20th 2018, switching to Alphavantage
 
 # ToDo:
 #  - fix 'lt' and 'ltt' dates for last trade date and time
+#  - since alphavantage does not update until 10:30 EDT, I need to workaround
+#    with grabbing intraday numbers and I will need to store the close from yesterday
+#    for arithmetic.  I may make a separate script to call with another cron 1x a day.
+#  - sometimes reqeusts timeout, I need to increase the timeout/retries in requests
 #
 # issues with the following URI started September 2017
 #  https://github.com/hongtaocai/googlefinance/issues/39
@@ -19,12 +24,15 @@ import sys
 #  alphabetFinance= 'http://finance.google.com/finance/info?q='
 #  alphabetFinance = 'https://finance.google.com/finance?q='
 
-
 alphaVantageAPIKey = os.environ.get('ALPHAVANTAGE_API_KEY')
 
 CLOSE = '4. close'
+INTRADAY_TIME_SERIES = 'Time Series (1min)'
 DAILY_TIME_SERIES = 'Time Series (Daily)'
 ERROR_KEY = 'Error Message'
+
+path_string = '/home/osbjmg/code/isanet-dev/'
+path_string = '/home/osbjmg/isanetbelow60.com/'
 
 #tickers = ['ANET','TSLA', 'F']
 tickers = ['ANET']
@@ -34,40 +42,86 @@ if len(tickers) <= 1:
 else :
     tickerString = ','.join(tickers)
 
-alphaVantageURI = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&'\
+alphaVantageIntraday = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&'\
++'symbol=%s&interval=1min&outputsize=compact&apikey=%s' %(
+tickerString, alphaVantageAPIKey )
+
+alphaVantageDaily = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&'\
 +'symbol=%s&outputsize=compact&apikey=%s' %(
 tickerString, alphaVantageAPIKey )
 
-response = requests.get(alphaVantageURI)
-json_response = response.json()
+try:
+    response = requests.get(alphaVantageIntraday)
+except requests.exceptions.ConnectionError:
+    response.status_code = "Connection refused"
+    time.sleep(5)
+    response = requests.get(alphaVantageIntraday)
 
-if response.status_code != 200 or ERROR_KEY in json_response:
+#pprint.pprint(response.json())
+
+intraday_json = response.json()
+if response.status_code != 200 or ERROR_KEY in intraday_json:
     sys.exit(0)
 
-daily_data = json_response[DAILY_TIME_SERIES]
-sorted_dates = sorted(daily_data.keys(), reverse=True)
-latest_data = daily_data[sorted_dates[0]]
-prev_days_data = daily_data[sorted_dates[1]]
+intraday_data = intraday_json[INTRADAY_TIME_SERIES]
+sorted_intraday = sorted(intraday_data.keys(), reverse=True)
+latest_intraday = intraday_data[sorted_intraday[0]]
 
-change = float(latest_data[CLOSE]) - float(prev_days_data[CLOSE])
-change_percent = 100 * change / float(prev_days_data[CLOSE])
+#intraday latest record (timestamp indexes each record)
+#print('latest_intraday (intraday_data[sorted_intraday[0]]):')
+#time
+#pprint.pprint(sorted_intraday[0])
+#pprint.pprint(latest_intraday)
+
+# enforce a sleep of 2 seconds to be fair to the API provider
+time.sleep(2)
+
+try:
+    response = requests.get(alphaVantageDaily)
+except requests.exceptions.ConnectionError:
+    response.status_code = "Connection refused"
+    time.sleep(5)
+    response = requests.get(alphaVantageDaily)
+
+#print('grabbing daily data now')
+daily_json = response.json()
+#print(response)
+if response.status_code != 200 or ERROR_KEY in daily_json:
+    sys.exit(0)
+#pprint.pprint(daily_json)
+
+daily_data = daily_json[DAILY_TIME_SERIES]
+sorted_daily = sorted(daily_data.keys(), reverse=True)
+penultimate_daily = daily_data[sorted_daily[1]]
+
+#print('penultimate_daily: (sorted_daily[1])')
+#pprint.pprint(sorted_daily[1])
+#pprint.pprint(penultimate_daily)
+
+change = float(latest_intraday[CLOSE]) - float(penultimate_daily[CLOSE])
+change_percent = 100 * change / float(penultimate_daily[CLOSE])
 if change >= 0 :
     change_sign = '+'
 else :
     change_sign = ''
 
-metaData = json_response['Meta Data']
+print(str(change) + ' ' + str(change_percent))
+
+metaData = intraday_json['Meta Data']
 outerlist = []
 fin_data_structure = {}
 fin_data_structure['t'] = metaData['2. Symbol']
-fin_data_structure['l'] = format(float(latest_data[CLOSE]), '.2f')
+fin_data_structure['l'] = format(float(latest_intraday[CLOSE]), '.2f')
 fin_data_structure['c'] = change_sign + format(change, '.2f')
 fin_data_structure['cp'] = format(change_percent, '.2f')
-fin_data_structure['lt'] = metaData['3. Last Refreshed']
-fin_data_structure['ltt'] = '11:34AM EST'
-fin_data_structure['lt_dts'] = '2017-02-22T11:35:01Z'
+fin_data_structure['lt_dts'] = metaData['3. Last Refreshed']
+fin_data_structure['ltt'] = metaData['3. Last Refreshed'].split()[1]
+#fin_data_structure['lt_dts'] = 'xxxx-02-22T11:35:01Z'
 
 outerlist.append(fin_data_structure)
+#print('printing fin_data_structure')
+#pprint.pprint(outerlist)
+
 
 '''
 for item in stockInfo:
@@ -80,7 +134,7 @@ for item in stockInfo:
 print json.dumps(stockInfo ,indent=4)
 '''
 
-f_rt = open('/home/osbjmg/isanetbelow60.com/bin/STOCK_RT.json', 'w+')
+f_rt = open(path_string + 'bin/STOCK_RT.json', 'w+')
 f_rt.write(json.dumps(outerlist, indent=4))
 f_rt.close()
 
