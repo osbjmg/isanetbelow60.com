@@ -12,10 +12,6 @@ import pprint
 # Google started to block me again on Mar 20th 2018, switching to Alphavantage
 
 # ToDo:
-#  - fix 'lt' and 'ltt' dates for last trade date and time
-#  - since alphavantage does not update until 10:30 EDT, I need to workaround
-#    with grabbing intraday numbers and I will need to store the close from yesterday
-#    for arithmetic.  I may make a separate script to call with another cron 1x a day.
 #  - sometimes reqeusts timeout, I need to increase the timeout/retries in requests
 #
 # issues with the following URI started September 2017
@@ -57,7 +53,6 @@ except requests.exceptions.ConnectionError:
     time.sleep(5)
     response = requests.get(alphaVantageIntraday)
 
-#pprint.pprint(response.json())
 
 intraday_json = response.json()
 if response.status_code != 200 or ERROR_KEY in intraday_json:
@@ -66,12 +61,6 @@ if response.status_code != 200 or ERROR_KEY in intraday_json:
 intraday_data = intraday_json[INTRADAY_TIME_SERIES]
 sorted_intraday = sorted(intraday_data.keys(), reverse=True)
 latest_intraday = intraday_data[sorted_intraday[0]]
-
-#intraday latest record (timestamp indexes each record)
-#print('latest_intraday (intraday_data[sorted_intraday[0]]):')
-#time
-#pprint.pprint(sorted_intraday[0])
-#pprint.pprint(latest_intraday)
 
 # enforce a sleep of 2 seconds to be fair to the API provider
 time.sleep(2)
@@ -83,20 +72,13 @@ except requests.exceptions.ConnectionError:
     time.sleep(5)
     response = requests.get(alphaVantageDaily)
 
-#print('grabbing daily data now')
 daily_json = response.json()
-#print(response)
 if response.status_code != 200 or ERROR_KEY in daily_json:
     sys.exit(0)
-#pprint.pprint(daily_json)
 
 daily_data = daily_json[DAILY_TIME_SERIES]
 sorted_daily = sorted(daily_data.keys(), reverse=True)
 penultimate_daily = daily_data[sorted_daily[1]]
-
-#print('penultimate_daily: (sorted_daily[1])')
-#pprint.pprint(sorted_daily[1])
-#pprint.pprint(penultimate_daily)
 
 change = float(latest_intraday[CLOSE]) - float(penultimate_daily[CLOSE])
 change_percent = 100 * change / float(penultimate_daily[CLOSE])
@@ -119,8 +101,6 @@ fin_data_structure['ltt'] = metaData['3. Last Refreshed'].split()[1]
 #fin_data_structure['lt_dts'] = 'xxxx-02-22T11:35:01Z'
 
 outerlist.append(fin_data_structure)
-#print('printing fin_data_structure')
-#pprint.pprint(outerlist)
 
 
 '''
