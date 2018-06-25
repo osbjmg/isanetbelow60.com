@@ -24,7 +24,7 @@ if (file_exists($filepath)) {
             $percentChange = $_val;
         } elseif ($_key == 'ltt') {
             $theTime = $_val;
-        } elseif ($_key == 'lt') {
+        } elseif ($_key == 'lt_dts') {
             $theDate = $_val;
         } elseif ($_key == 'lt_dts') {
             $theDateZ = str_replace("Z","-$tzOffset", $_val);
@@ -170,7 +170,7 @@ if ($displayedImage == 'duda_hug.jpg') {
    echo '<img src="images/'.$displayedImage.'" alt="'.$displayedImageAltText.'"><br><br>';
    echo '<h1>ANET <a href="https://www.google.com/finance?q=anet" target=_blank>$'.$price.'</a></font></h2>';
    echo '<h3><span class="'.$pos_or_neg.'">'.$change.'('.$percentChange.'%)</font></h3>';
-   echo '<br><span class="tiny"> * as of '.$theTime.'</font>';
+   echo '<br><span class="tiny"> * as of '.$theDate.'</font>';
    ?>
    <!-- <br>
    <iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~osbjmg/10.embed"></iframe>
