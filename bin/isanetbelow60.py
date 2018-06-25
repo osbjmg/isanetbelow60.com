@@ -87,7 +87,7 @@ if change >= 0 :
 else :
     change_sign = ''
 
-print(str(change) + ' ' + str(change_percent))
+#print(str(change) + ' ' + str(change_percent))
 
 metaData = intraday_json['Meta Data']
 outerlist = []
