@@ -79,8 +79,9 @@ if response.status_code != 200 or ERROR_KEY in daily_json:
 daily_data = daily_json[DAILY_TIME_SERIES]
 sorted_daily = sorted(daily_data.keys(), reverse=True)
 penultimate_daily = daily_data[sorted_daily[1]]
+latest_daily = daily_data[sorted_daily[0]]
 
-change = float(latest_intraday[CLOSE]) - float(penultimate_daily[CLOSE])
+change = float(latest_daily[CLOSE]) - float(penultimate_daily[CLOSE])
 change_percent = 100 * change / float(penultimate_daily[CLOSE])
 if change >= 0 :
     change_sign = '+'
@@ -93,7 +94,7 @@ metaData = intraday_json['Meta Data']
 outerlist = []
 fin_data_structure = {}
 fin_data_structure['t'] = metaData['2. Symbol']
-fin_data_structure['l'] = format(float(latest_intraday[CLOSE]), '.2f')
+fin_data_structure['l'] = format(float(latest_daily[CLOSE]), '.2f')
 fin_data_structure['c'] = change_sign + format(change, '.2f')
 fin_data_structure['cp'] = format(change_percent, '.2f')
 fin_data_structure['lt_dts'] = metaData['3. Last Refreshed']
