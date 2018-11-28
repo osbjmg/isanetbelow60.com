@@ -1,9 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import os
 import requests
 import json
 import re
-import urllib2
+#import urllib2
+import urllib.request
 import sys
 import time
 #import ystockquote
@@ -27,8 +28,8 @@ INTRADAY_TIME_SERIES = 'Time Series (1min)'
 DAILY_TIME_SERIES = 'Time Series (Daily)'
 ERROR_KEY = 'Error Message'
 
-path_string = '/home/osbjmg/code/isanet-dev/'
 path_string = '/home/osbjmg/isanetbelow60.com/'
+path_string = '/home/osbjmg/code/isanet-dev/'
 
 #tickers = ['ANET','TSLA', 'F']
 tickers = ['ANET']

@@ -2,7 +2,7 @@
 $filename = 'STOCK_RT.json';
 $filepath = 'bin/'.$filename;
 $theTicker = 'ANET';
-$tzOffset = '04:00'; // EDT 4, EST 5
+$tzOffset = '05:00'; // EDT 4, EST 5
 
 // Get current stock info
 if (file_exists($filepath)) {
@@ -143,7 +143,7 @@ if ($displayedImage == 'duda_hug.jpg') {
  <head>
  <?php
  echo '<title>Is ANET '.$above_or_below.' $'.$this_site_number.'</title>';
- echo '<link rel="canonical" href="http://'.$this_site.'" />';
+ echo '<link rel="canonical" href="https://'.$this_site.'" />';
  echo '<link href="styles.css" rel="stylesheet" type="text/css" />';
  echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
  echo '<meta http-equiv="refresh" content="305" />';
@@ -152,7 +152,7 @@ if ($displayedImage == 'duda_hug.jpg') {
  echo '<meta name="twitter:label2" value="Reading time"><meta name="twitter:data2" value="~ 1 minute">';
  #echo '<meta property="article:published_time" content="'.$theDateZ.'" />';
  echo '<meta name="description" content=" '.$answer.': $'.$price.', '.$change.' ('.$percentChange.'%)"/>';
- echo '<meta property="og:image" content="http://'.$this_site.'/images/'.$displayedImage.'"/>';
+ echo '<meta property="og:image" content="https://'.$this_site.'/images/'.$displayedImage.'"/>';
  ?>
 
  </head>
