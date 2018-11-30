@@ -28,8 +28,8 @@ INTRADAY_TIME_SERIES = 'Time Series (1min)'
 DAILY_TIME_SERIES = 'Time Series (Daily)'
 ERROR_KEY = 'Error Message'
 
-path_string = '/home/osbjmg/isanetbelow60.com/'
 path_string = '/home/osbjmg/code/isanet-dev/'
+path_string = '/home/osbjmg/isanetbelow60.com/'
 
 #tickers = ['ANET','TSLA', 'F']
 tickers = ['ANET']
