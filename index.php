@@ -144,6 +144,8 @@ if ($displayedImage == 'duda_hug.jpg') {
     $displayedImageAltText = 'A pokemon';
 } elseif ($displayedImage == 'm.chandler.jpg') {
     $displayedImageAltText = 'A lawyer';
+} elseif ($displayedImage == 'vince.jpg') {
+    $displayedImageAltText = 'A showman';
 }
 
 ?>
