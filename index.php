@@ -2,7 +2,7 @@
 $filename = 'STOCK_RT.json';
 $filepath = 'bin/'.$filename;
 $theTicker = 'ANET';
-$tzOffset = '05:00'; // EDT 4, EST 5
+$tzOffset = '04:00'; // EDT 4, EST 5
 
 // Get current stock info
 if (file_exists($filepath)) {
@@ -95,11 +95,16 @@ $emojiFire = "\u{1F525}";
 $emojiJudge = "\u{1F469}";
 $emojiGrin = "\u{1F601}";
 $emojiHug = "\u{1F917}";
+$emojiMoon = "\u{1F315}";
+$emojiRocket = "\u{1F680}";
+
+// Define categories of images
+$very_positive_images = array('kenneth_duda.jpg', 'vince.jpg');
 
 // logic for site name to price decisions
 if($above_or_below == 'below' && $price > (double)$this_site_number) { // Website is a pessimistic URL (isanetbelow60.com), but we beat it
     $answer = $good;
-    $displayedImage  = 'kenneth_duda.jpg';
+    $displayedImage  = $very_positive_images[array_rand($very_positive_images, 1)];
     $fontStyleGoodOrBad = 'good';
     $emoji = $emojiHeartEyes;
 } elseif ($above_or_below == 'below' && $price <= (double)$this_site_number) { // Website is a pessimistic URL, and we did not beat it
@@ -110,9 +115,9 @@ if($above_or_below == 'below' && $price > (double)$this_site_number) { // Websit
 } else { // Website is an optimistic URL (isanetabove100.com)
     if ($price > (double)$this_site_number + ((double)$this_site_number*0.10)) { // 10% or more above the website price
         $answer = $good;
-        $displayedImage = 'duda_hug.jpg'; 
+        $displayedImage  = $very_positive_images[array_rand($very_positive_images, 1)];
         $fontStyleGoodOrBad = 'good';
-        $emoji = $emojiHug;
+        $emoji = $emojiRocket;
     } elseif ($price > (double)$this_site_number && $price <= ((double)$this_site_number + ((double)$this_site_number*0.10))) { // Between just above price and 10% above the website price
         $answer = $good;
         $displayedImage = 'adam_pokemon.jpg';
