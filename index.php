@@ -73,6 +73,11 @@ if (strpos($this_site,'60') !== false) {
    $above_or_below='above';
    $good='Yes';
    $bad='No';
+} elseif (strpos($this_site, '400') !== false) {
+   $this_site_number='400';
+   $above_or_below='above';
+   $good='Yes';
+   $bad='No';
 } else {
    $this_site_number='0';
    $above_or_below='unknown';
