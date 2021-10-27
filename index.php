@@ -99,7 +99,7 @@ $emojiMoon = "\u{1F315}";
 $emojiRocket = "\u{1F680}";
 
 // Define categories of images
-$very_positive_images = array('kenneth_duda.jpg', 'vince.jpg');
+$very_positive_images = array('duda_hug.jpg', 'vince.jpg');
 
 // logic for site name to price decisions
 if($above_or_below == 'below' && $price > (double)$this_site_number) { // Website is a pessimistic URL (isanetbelow60.com), but we beat it
