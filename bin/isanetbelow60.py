@@ -4,13 +4,17 @@ import requests
 import json
 import re
 #import urllib2
-import urllib.request
+#import urllib.request
 import sys
 import time
 #import ystockquote
 import pprint
+import datetime
+
 # Changes:
 # Google started to block me again on Mar 20th 2018, switching to Alphavantage
+# Alphavantage doesn't understand daylight savings and stopped updating stock prices during the day, switching to IEX
+
 
 # ToDo:
 #  - sometimes reqeusts timeout, I need to increase the timeout/retries in requests
@@ -21,12 +25,11 @@ import pprint
 #  alphabetFinance= 'http://finance.google.com/finance/info?q='
 #  alphabetFinance = 'https://finance.google.com/finance?q='
 
-alphaVantageAPIKey = os.environ.get('ALPHAVANTAGE_API_KEY')
+iexAPIKey = os.environ.get('IEX_API_KEY')
 
-CLOSE = '4. close'
-INTRADAY_TIME_SERIES = 'Time Series (1min)'
-DAILY_TIME_SERIES = 'Time Series (Daily)'
-ERROR_KEY = 'Error Message'
+price = 'latestPrice'
+change = 'change'
+changePercent = 'changePercent'
 
 path_string = '/home/osbjmg/code/isanet-dev/'
 path_string = '/home/osbjmg/isanetbelow60.com/'
@@ -39,67 +42,45 @@ if len(tickers) <= 1:
 else :
     tickerString = ','.join(tickers)
 
-alphaVantageIntraday = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&'\
-+'symbol=%s&interval=1min&outputsize=compact&apikey=%s' %(
-tickerString, alphaVantageAPIKey )
-
-alphaVantageDaily = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&'\
-+'symbol=%s&outputsize=compact&apikey=%s' %(
-tickerString, alphaVantageAPIKey )
-
+payload = {
+    'token' : iexAPIKey,
+}
+iexQuote = ('https://cloud.iexapis.com/stable/stock/%s/quote' % tickerString)
 try:
-    response = requests.get(alphaVantageIntraday)
+    stock = requests.get(iexQuote, params=payload)
 except requests.exceptions.ConnectionError:
-    response.status_code = "Connection refused"
+    stock.status_code = "Connection refused"
     time.sleep(5)
-    response = requests.get(alphaVantageIntraday)
+    stock = requests.get(iexQuote, params=payload)
 
 
-intraday_json = response.json()
-if response.status_code != 200 or ERROR_KEY in intraday_json:
+intraday_json = stock.json()
+if stock.status_code != 200:
     sys.exit(0)
-
-intraday_data = intraday_json[INTRADAY_TIME_SERIES]
-sorted_intraday = sorted(intraday_data.keys(), reverse=True)
-latest_intraday = intraday_data[sorted_intraday[0]]
 
 # enforce a sleep of 2 seconds to be fair to the API provider
 time.sleep(2)
 
-try:
-    response = requests.get(alphaVantageDaily)
-except requests.exceptions.ConnectionError:
-    response.status_code = "Connection refused"
-    time.sleep(5)
-    response = requests.get(alphaVantageDaily)
-
-daily_json = response.json()
-if response.status_code != 200 or ERROR_KEY in daily_json:
-    sys.exit(0)
-
-daily_data = daily_json[DAILY_TIME_SERIES]
-sorted_daily = sorted(daily_data.keys(), reverse=True)
-penultimate_daily = daily_data[sorted_daily[1]]
-latest_daily = daily_data[sorted_daily[0]]
-
-change = float(latest_daily[CLOSE]) - float(penultimate_daily[CLOSE])
-change_percent = 100 * change / float(penultimate_daily[CLOSE])
+change = intraday_json[change]
+change_percent = 100 * intraday_json[changePercent]
 if change >= 0 :
     change_sign = '+'
 else :
     change_sign = ''
+ltt_dts = datetime.datetime.fromtimestamp(intraday_json['lastTradeTime']/1000.0)
+ltt_dts = ltt_dts.strftime('%Y-%m-%d %H:%M:%S.%f')
 
 #print(str(change) + ' ' + str(change_percent))
 
-metaData = intraday_json['Meta Data']
 outerlist = []
 fin_data_structure = {}
-fin_data_structure['t'] = metaData['2. Symbol']
-fin_data_structure['l'] = format(float(latest_daily[CLOSE]), '.2f')
+fin_data_structure['t'] = intraday_json['symbol']
+fin_data_structure['l'] = format(float(intraday_json['latestPrice']), '.2f')
 fin_data_structure['c'] = change_sign + format(change, '.2f')
 fin_data_structure['cp'] = format(change_percent, '.2f')
-fin_data_structure['lt_dts'] = metaData['3. Last Refreshed']
-fin_data_structure['ltt'] = metaData['3. Last Refreshed'].split()[1]
+fin_data_structure['lt_dts'] = ltt_dts
+fin_data_structure['ltt'] = ltt_dts.split()[1]
+
 #fin_data_structure['lt_dts'] = 'xxxx-02-22T11:35:01Z'
 
 outerlist.append(fin_data_structure)
