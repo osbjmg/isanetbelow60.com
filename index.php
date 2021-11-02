@@ -187,7 +187,8 @@ if ($displayedImage == 'duda_hug.jpg') {
    echo '<img src="images/'.$displayedImage.'" alt="'.$displayedImageAltText.'"><br><br>';
    echo '<h1>ANET <a href="https://www.google.com/finance?q=anet" target=_blank>$'.$price.'</a></font></h2>';
    echo '<h3><span class="'.$pos_or_neg.'">'.$change.'('.$percentChange.'%)</font></h3>';
-   echo '<br><span class="tiny"> * as of '.$theDate.'</font>';
+   echo '<br><br><span class="tiny">* <a href="https://iexcloud.io">Data provided by IEX Cloud</a>';
+   echo ' as of '.$theDate.'</font>';
    ?>
    <!-- <br>
    <iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~osbjmg/10.embed"></iframe>
