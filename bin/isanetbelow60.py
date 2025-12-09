@@ -32,7 +32,7 @@ change = 'change'
 changePercent = 'changePercent'
 
 path_string = '/home/osbjmg/code/isanet-dev/'
-path_string = '/home/osbjmg//code/isanetbelow60.com/'
+path_string = '/home/osbjmg/code/isanetbelow60.com/'
 path_string = '/home/osbjmg/isanetbelow60.com/'
 
 #tickers = ['ANET','TSLA', 'F']
