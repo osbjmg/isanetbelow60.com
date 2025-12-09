@@ -53,9 +53,11 @@ finnQuote = (f"https://finnhub.io/api/v1/quote")
 
 try:
     stock = requests.get(finnQuote, params=payload)
-except requests.exceptions.ConnectionError:
-    stock.status_code = "Connection refused"
+    stock.raise_for_status()
+except requests.exceptions.ConnectionError as err:
+    print(f"Connection failed: {err}")
     time.sleep(5)
+    print("Retrying quote...")
     stock = requests.get(finnQuote, params=payload)
 
 intraday_json = stock.json()
