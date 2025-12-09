@@ -187,7 +187,7 @@ if ($displayedImage == 'duda_hug.jpg') {
    echo '<img src="images/'.$displayedImage.'" alt="'.$displayedImageAltText.'"><br><br>';
    echo '<h1>ANET <a href="https://www.google.com/finance?q=anet" target=_blank>$'.$price.'</a></font></h2>';
    echo '<h3><span class="'.$pos_or_neg.'">'.$change.'('.$percentChange.'%)</font></h3>';
-   echo '<br><br><span class="tiny">* <a href="https://iexcloud.io">Data provided by IEX Cloud</a>';
+   echo '<br><br><span class="tiny">* <a href="https://finnhub.io">Data provided by Finnhub</a>';
    echo ' as of '.$theDate.'</font>';
    ?>
    <!-- <br>
